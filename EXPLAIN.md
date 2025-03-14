@@ -87,7 +87,7 @@ domain/api
 **Request Body:**
 ```json
 {
-    "author_id": "<author_id>",
+    "author_id": "usr_123456789",
     "call_name": "Broken computer",
     "callL_label": "Room 19",
     "call_equipment": "Computer 97",
@@ -110,7 +110,7 @@ domain/api
 **Request Body:**
 ```json
 {
-    "call_id": "<called_id>",
+    "call_id": "call_987654321",
     "call_status": "doing"
 }
 ```
@@ -135,7 +135,7 @@ domain/api
 **Endpoint:** `GET /called/fetch`
 
 **Query Parameters:**
-- `author`: ID do autor dos chamados
+- `author`: ID do autor dos chamados (exemplo: `author=usr_123456789`)
 
 **Respostas:**
 - Sucesso (200):
@@ -143,9 +143,14 @@ domain/api
 {
     "calls": [
         {
-            "call_id": "<call_id>",
-            "call_name": "<call_name>",
-            "call_status": "<call_status>"
+            "call_id": "call_987654321",
+            "call_name": "Broken computer",
+            "call_status": "doing"
+        },
+        {
+            "call_id": "call_987654322",
+            "call_name": "Printer not working",
+            "call_status": "pending"
         }
     ],
     "status": true
@@ -163,14 +168,14 @@ domain/api
 **Endpoint:** `GET /called/info`
 
 **Query Parameters:**
-- `call_id`: ID do chamado
+- `call_id`: ID do chamado (exemplo: `call_id=call_987654321`)
 
 **Respostas:**
 - Sucesso (200):
 ```json
 {
-    "call_response": "<call_response>",
-    "call_explain": "<call_explain>",
+    "call_response": "Technician scheduled for tomorrow morning",
+    "call_explain": "Computer fell from the desk, screen is cracked and won't turn on",
     "status": true
 }
 ```
@@ -188,8 +193,8 @@ domain/api
 **Request Body:**
 ```json
 {
-    "author_id": "<author_id>",
-    "call_id": "<called_id>"
+    "author_id": "usr_123456789",
+    "call_id": "call_987654321"
 }
 ```
 
