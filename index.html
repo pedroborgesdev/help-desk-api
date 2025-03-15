@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="api-title">Documentação da API de Gerenciamento de Chamados</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Adicionar Prism.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2 data-lang-key="api-docs">API Docs</h2>
+                <div class="header-buttons">
+                    <div class="language-selector">
+                        <select id="language-select" title="Select language">
+                            <option value="en-us">English</option>
+                            <option value="pt-br">Português</option>
+                        </select>
+                    </div>
+                    <button id="theme-toggle" class="theme-toggle" title="Alternar tema">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <button id="mobile-toggle" class="mobile-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-section">
+                    <div class="section-header">
+                        <span data-lang-key="introduction">Introdução</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="subsection">
+                        <li><a href="#what-is-this" data-lang-key="what-is-this">O que é esta API?</a></li>
+                        <li><a href="#base-url" data-lang-key="base-url">URL Base</a></li>
+                    </ul>
+                </li>
+                <li class="nav-section">
+                    <div class="section-header">
+                        <span data-lang-key="authentication">Autenticação</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="subsection">
+                        <li><a href="#auth-login" data-lang-key="login">Login</a></li>
+                        <li><a href="#auth-register" data-lang-key="register">Registro</a></li>
+                    </ul>
+                </li>
+                <li class="nav-section">
+                    <div class="section-header">
+                        <span data-lang-key="users">Users</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="subsection">
+                        <li><a href="#user-fetch" data-lang-key="user-fetch">Fetch User Information</a></li>
+                        <li><a href="#user-fetchall" data-lang-key="user-fetchall">List All Users</a></li>
+                        <li><a href="#user-delete" data-lang-key="user-delete">Delete User</a></li>
+                        <li><a href="#user-create" data-lang-key="user-create">Create User</a></li>
+                    </ul>
+                </li>
+                <li class="nav-section">
+                    <div class="section-header">
+                        <span data-lang-key="tickets">Tickets</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <ul class="subsection">
+                        <li><a href="#called-create" data-lang-key="ticket-create">Create Ticket</a></li>
+                        <li><a href="#called-edit" data-lang-key="ticket-update">Update Ticket</a></li>
+                        <li><a href="#called-fetch" data-lang-key="ticket-fetch">Fetch Tickets</a></li>
+                        <li><a href="#called-info" data-lang-key="ticket-info">Ticket Details</a></li>
+                        <li><a href="#called-remove" data-lang-key="ticket-delete">Delete Ticket</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <main class="content">
+            <section id="what-is-this" class="content-section">
+                <h1 data-lang-key="what-is-this">What is this API?</h1>
+                <p data-lang-key="api-description">This API provides endpoints for managing support tickets and user accounts.</p>
+            </section>
+
+            <section id="base-url" class="content-section">
+                <h1 data-lang-key="base-url">Base URL</h1>
+                <div class="code-block">
+                    <pre><code class="language-http">domain.com/api</code></pre>
+                </div>
+            </section>
+
+            <!-- Seção de Autenticação -->
+            <section id="auth-login" class="content-section">
+                <h1 data-lang-key="login">Login</h1>
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/auth/enter</div>
+                </div>
+                <h3 data-lang-key="request-body">Request Body:</h3>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "username": "John Doe",
+    "email": "johndoe@example.com",
+    "password": "Password123"
+}</code></pre>
+                </div>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "User has been loged in",
+    "status": true
+}</code></pre>
+                </div>
+                <p><strong data-lang-key="email-not-registered">Email not registered</strong> (400):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Email aren't registered",
+    "status": false
+}</code></pre>
+                </div>
+                <p><strong data-lang-key="incorrect-password">Incorrect password</strong> (400):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Password is incorrect",
+    "status": false
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="auth-register" class="content-section">
+                <h1 data-lang-key="register">Register</h1>
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/auth/register</div>
+                </div>
+                <h3 data-lang-key="request-body">Request Body:</h3>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "username": "John Doe",
+    "email": "johndoe@example.com",
+    "password": "Password123"
+}</code></pre>
+                </div>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "User has been registered",
+    "status": true
+}</code></pre>
+                </div>
+                <p><strong data-lang-key="email-exists">Email already exists</strong> (400):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Email already exists",
+    "status": false
+}</code></pre>
+                </div>
+                <p><strong data-lang-key="invalid-password">Invalid password</strong> (400):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Password is invalid",
+    "status": false
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Seção de Usuários -->
+            <section id="user-fetch" class="content-section">
+                <h1 data-lang-key="user-fetch">Fetch User Information</h1>
+                <div class="endpoint">
+                    <div class="method get">GET</div>
+                    <div class="path">/user/fetch</div>
+                </div>
+                <p><strong data-lang-key="description">Description:</strong> <span data-lang-key="user-fetch-desc">Fetches information about a specific user.</span></p>
+                <h3 data-lang-key="query-params">Query Parameters:</h3>
+                <ul>
+                    <li><code>email</code>: <span data-lang-key="email-param-desc">User email (example: <code>email=johndoe@example.com</code>)</span></li>
+                </ul>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "username": "John Doe",
+    "email": "johndoe@example.com",
+    "password": "********",
+    "created_at": "2023-07-15T14:30:45Z",
+    "status": true
+}</code></pre>
+                </div>
+                <p><strong data-lang-key="user-not-found">User not found</strong> (404):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "User not found",
+    "status": false
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="user-fetchall" class="content-section">
+                <h1 data-lang-key="user-fetchall">List All Users</h1>
+                <div class="endpoint">
+                    <div class="method get">GET</div>
+                    <div class="path">/user/fetchall</div>
+                </div>
+                <p><strong data-lang-key="description">Description:</strong> <span data-lang-key="user-fetchall-desc">Fetches all users from the system.</span></p>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "users": [
+        {
+            "username": "John Doe",
+            "email": "johndoe@example.com"
+        },
+        {
+            "username": "Jane Smith",
+            "email": "janesmith@example.com"
+        }
+    ],
+    "status": true
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="user-delete" class="content-section">
+                <h1 data-lang-key="user-delete">Delete User</h1>
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/user/delete</div>
+                </div>
+                <p><strong data-lang-key="description">Description:</strong> <span data-lang-key="user-delete-desc">Deletes a user based on their email.</span></p>
+                <h3 data-lang-key="request-body">Request Body:</h3>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "email": "johndoe@example.com"
+}</code></pre>
+                </div>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "User has been deleted",
+    "status": true
+}</code></pre>
+                </div>
+                <p><strong data-lang-key="user-not-found">User not found</strong> (404):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "User not found",
+    "status": false
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="user-create" class="content-section">
+                <h1 data-lang-key="user-create">Create User</h1>
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/user/create</div>
+                </div>
+                <p><strong data-lang-key="description">Description:</strong> <span data-lang-key="user-create-desc">Creates a user (works similarly to the /auth/register endpoint).</span></p>
+                <h3 data-lang-key="request-body">Request Body:</h3>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "username": "John Doe",
+    "email": "johndoe@example.com",
+    "password": "Password123"
+}</code></pre>
+                </div>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "User has been created",
+    "status": true
+}</code></pre>
+                </div>
+                <p><strong data-lang-key="email-exists">Email already exists</strong> (400):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Email already exists",
+    "status": false
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Seção de Chamados -->
+            <section id="called-create" class="content-section">
+                <h1 data-lang-key="ticket-create">Create Ticket</h1>
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/called/create</div>
+                </div>
+                <h3 data-lang-key="request-body">Request Body:</h3>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "author_email": "johndoe@example.com",
+    "call_name": "Broken computer",
+    "callL_label": "Room 19",
+    "call_equipment": "Computer 97",
+    "call_explain": "Computer has downed of the table"
+}</code></pre>
+                </div>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Called has been created",
+    "status": true
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="called-edit" class="content-section">
+                <h1 data-lang-key="ticket-update">Update Ticket</h1>
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/called/edit</div>
+                </div>
+                <h3 data-lang-key="request-body">Request Body:</h3>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "call_id": "call_987654321",
+    "call_status": "doing"
+}</code></pre>
+                </div>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Called has been edited",
+    "status": true
+}</code></pre>
+                </div>
+                <p><strong data-lang-key="ticket-not-found">Ticket not found</strong> (404):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Called hasn't found",
+    "status": false
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="called-fetch" class="content-section">
+                <h1 data-lang-key="ticket-fetch">Fetch Tickets</h1>
+                <div class="endpoint">
+                    <div class="method get">GET</div>
+                    <div class="path">/called/fetch</div>
+                </div>
+                <h3 data-lang-key="query-params">Query Parameters:</h3>
+                <ul>
+                    <li><code>author</code>: <span data-lang-key="author-param-desc">Email of the ticket author (example: <code>author=johndoe@example.com</code>)</span></li>
+                    <li><code>status</code>: <span data-lang-key="status-param-desc">Status filter (possible values: <code>all</code>, <code>pending</code>, <code>doing</code>, <code>conclued</code>)</span></li>
+                </ul>
+                <h3 data-lang-key="examples">Examples:</h3>
+                <ul>
+                    <li><span data-lang-key="example-all-tickets">List all tickets:</span> <code>/called/fetch?author=johndoe@example.com&status=all</code></li>
+                    <li><span data-lang-key="example-pending-tickets">List pending tickets:</span> <code>/called/fetch?author=johndoe@example.com&status=pending</code></li>
+                </ul>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "calls": [
+        {
+            "call_id": "call_987654321",
+            "call_name": "Broken computer",
+            "call_status": "doing"
+        },
+        {
+            "call_id": "call_987654322",
+            "call_name": "Printer not working",
+            "call_status": "pending"
+        }
+    ],
+    "status": true
+}</code></pre>
+                </div>
+                <p><strong data-lang-key="no-tickets">No tickets</strong> (404):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Author don't have calls",
+    "status": false
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="called-info" class="content-section">
+                <h1 data-lang-key="ticket-info">Ticket Details</h1>
+                <div class="endpoint">
+                    <div class="method get">GET</div>
+                    <div class="path">/called/info</div>
+                </div>
+                <h3 data-lang-key="query-params">Query Parameters:</h3>
+                <ul>
+                    <li><code>call_id</code>: <span data-lang-key="call-id-param-desc">Ticket ID (example: <code>call_id=call_987654321</code>)</span></li>
+                </ul>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "call_id": "call_987654321",
+    "call_name": "Broken computer",
+    "call_status": "doing",
+    "call_explain": "Computer fell from the desk, screen is cracked and won't turn on",
+    "history": [
+        {
+            "call_return": "Purchasing routers",
+            "call_date": "2023-07-15T14:30:45Z"
+        },
+        {
+            "call_return": "Configuring notebook",
+            "call_date": "2023-07-16T09:15:22Z"
+        },
+        {
+            "call_return": "Clean screen",
+            "call_date": "2023-07-17T11:45:30Z"
+        }
+    ],
+    "status": true
+}</code></pre>
+                </div>
+                <p><strong data-lang-key="ticket-not-found">Ticket not found</strong> (404):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Call hasn't found",
+    "status": false
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="called-remove" class="content-section">
+                <h1 data-lang-key="ticket-delete">Delete Ticket</h1>
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/called/remove</div>
+                </div>
+                <h3 data-lang-key="request-body">Request Body:</h3>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "author_email": "johndoe@example.com",
+    "call_id": "call_987654321"
+}</code></pre>
+                </div>
+                <h3 data-lang-key="responses">Responses:</h3>
+                <p><strong data-lang-key="success">Success</strong> (200):</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+    "message": "Called has been edited",
+    "status": true
+}</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- Adicionar Prism.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-http.min.js"></script>
+    
+    <!-- Adicionar scripts da aplicação -->
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

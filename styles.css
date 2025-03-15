@@ -1,0 +1,776 @@
+/* Estilos gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: none !important;
+    animation: none !important;
+}
+
+:root {
+    /* Variáveis compartilhadas */
+    --sidebar-width: 380px;
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --text-color: #333;
+    --text-muted: #6c757d;
+    --sidebar-bg: #f8f9fa;
+    --content-bg: #ffffff;
+    --border-color: #e1e4e8;
+    --code-bg: #f6f8fa;
+    --method-get: #f0d264;
+    --method-post: #64a0f0;
+    --method-put: #fca130;
+    --method-delete: #f93e3e;
+    --section-bg: #f1f3f5;
+    --hover-bg: #f1f3f5;
+}
+
+/* Tema claro (padrão) */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --text-color: #333;
+    --text-muted: #6c757d;
+    --sidebar-bg: #f8f9fa;
+    --content-bg: #ffffff;
+    --border-color: #e1e4e8;
+    --code-bg: #f6f8fa;
+    --method-get: #f0d264;
+    --method-post: #64a0f0;
+    --method-put: #fca130;
+    --method-delete: #f93e3e;
+    --section-bg: #f1f3f5;
+    --hover-bg: #f1f3f5;
+}
+
+/* Tema escuro - cinza escuro com cinza claro e verde pastel */
+.dark-theme {
+    --primary-color: #8cd2a7; /* Verde pastel */
+    --secondary-color: #6ab890; /* Verde pastel mais escuro */
+    --text-color: #e0e0e0; /* Cinza claro para texto */
+    --text-muted: #a0a0a0; /* Cinza médio para texto secundário */
+    --sidebar-bg: #222222; /* Cinza muito escuro para sidebar */
+    --content-bg: #222222; /* Cinza escuro para o fundo do conteúdo */
+    --border-color: #3a3a3a; /* Cinza médio para bordas */
+    --code-bg: #2a2a2a; /* Cinza escuro para blocos de código */
+    --method-get: #e6d28a; /* Amarelo pastel para GET */
+    --method-post: #8ab8e6; /* Azul pastel para POST */
+    --method-put: #a0d6b9; /* Verde pastel claro para PUT */
+    --method-delete: #d68a8a; /* Vermelho pastel para DELETE */
+    --section-bg: #2a2a2a; /* Cinza escuro para seções */
+    --hover-bg: #333333; /* Cinza médio para hover */
+}
+
+body {
+    color: var(--text-color);
+    line-height: 1.6;
+    background-color: var(--content-bg);
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Estilos da barra lateral */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    transition: none;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--sidebar-bg);
+}
+
+.sidebar-header h2 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.theme-toggle, .mobile-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--primary-color);
+    padding: 5px;
+    border-radius: 5px;
+    transition: none;
+}
+
+.theme-toggle:hover, .mobile-toggle:hover {
+    background-color: transparent;
+}
+
+.mobile-toggle {
+    display: none;
+}
+
+.nav-menu {
+    list-style: none;
+}
+
+.nav-section {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.section-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+    transition: none;
+}
+
+.section-header:hover {
+    background-color: transparent;
+}
+
+.section-header i {
+    transition: none;
+}
+
+.nav-section.active .section-header i {
+    transform: rotate(180deg);
+}
+
+.subsection {
+    list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: none;
+    background-color: var(--section-bg);
+}
+
+.nav-section.active .subsection {
+    max-height: none;
+}
+
+.subsection li {
+    padding: 10px 20px 10px 40px;
+    border-top: 1px solid var(--border-color);
+}
+
+.subsection li a {
+    text-decoration: none;
+    color: var(--text-color);
+    display: block;
+    transition: none;
+}
+
+.subsection li a:hover {
+    text-decoration: underline;
+}
+
+.subsection li a.active {
+    color: var(--primary-color);
+}
+
+/* Estilos do conteúdo principal */
+.content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 30px;
+    background-color: var(--content-bg);
+}
+
+.content-section {
+    margin-bottom: 60px;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: var(--content-bg);
+    position: relative;
+}
+
+.content-section:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: var(--primary-color);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.content-section h1 {
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    font-size: 2rem;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.content-section h3 {
+    margin: 25px 0 15px;
+    color: var(--text-color);
+    font-size: 1.3rem;
+}
+
+.content-section p {
+    margin-bottom: 15px;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.content-section strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.content-section ol, .content-section ul {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.content-section ul li {
+    margin-bottom: 8px;
+}
+
+/* Estilos para blocos de código */
+.code-block {
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 0;
+    margin: 15px 0;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    position: relative;
+    transition: none;
+}
+
+.code-block:hover {
+    border-color: var(--border-color);
+}
+
+.code-block pre {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.code-block code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    padding: 15px;
+    display: block;
+    overflow-x: auto;
+}
+
+/* Estilo para o URL base */
+#base-url .code-block {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+#base-url .code-block pre {
+    margin: 0;
+}
+
+#base-url .code-block code {
+    padding: 8px 12px;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Ajustes para Prism.js */
+pre[class*="language-"] {
+    margin: 0;
+    border-radius: 0;
+    background: transparent !important;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+code[class*="language-"] {
+    background: transparent !important;
+    padding: 15px;
+    font-size: 14px;
+    text-shadow: none !important;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* Remover sombras e fundos padrão do Prism */
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Cores para tokens no tema escuro */
+.dark-theme .token.property {
+    color: #ffb380;  /* Laranja pastel para propriedades */
+}
+
+.dark-theme .token.string {
+    color: #8cd2a7;  /* Verde pastel para strings */
+}
+
+.dark-theme .token.number,
+.dark-theme .token.boolean {
+    color: #d68a8a;  /* Vermelho pastel para números e booleanos */
+}
+
+.dark-theme .token.punctuation {
+    color: #a0a0a0;  /* Cinza médio para pontuação */
+}
+
+.dark-theme .token.operator {
+    color: #c2a0d6;  /* Roxo pastel para operadores */
+}
+
+.dark-theme .token.keyword {
+    color: #a0c2d6;  /* Azul pastel para palavras-chave */
+}
+
+.dark-theme .token.null,
+.dark-theme .token.undefined {
+    color: #d6a0c2;  /* Rosa pastel para null/undefined */
+}
+
+/* Cores para tokens no tema claro */
+.token.property {
+    color: #e67e22;  /* Laranja para propriedades */
+}
+
+.token.string {
+    color: #27ae60;  /* Verde para strings */
+}
+
+.token.number,
+.token.boolean {
+    color: #e74c3c;  /* Vermelho para números e booleanos */
+}
+
+.token.punctuation {
+    color: #3498db;  /* Azul para pontuação */
+}
+
+.token.operator {
+    color: #9b59b6;  /* Roxo para operadores */
+}
+
+.token.keyword {
+    color: #8e44ad;  /* Roxo escuro para palavras-chave */
+}
+
+.token.null,
+.token.undefined {
+    color: #d81b60;  /* Rosa para null/undefined */
+}
+
+/* Adicionar um leve destaque para as chaves e colchetes */
+.token.punctuation.brace-open,
+.token.punctuation.brace-close,
+.token.punctuation.bracket-open,
+.token.punctuation.bracket-close {
+    font-weight: bold;
+}
+
+/* Adicionar um leve destaque para os dois pontos após as propriedades */
+.token.punctuation.colon {
+    margin-right: 4px;
+}
+
+/* Botão de copiar do Prism.js */
+div.code-toolbar > .toolbar {
+    display: none !important;
+}
+
+/* Estilos para código inline */
+code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: var(--primary-color);
+    background-color: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    transition: none;
+}
+
+.dark-theme code {
+    background-color: var(--code-bg);
+}
+
+/* Garantir que o código dentro dos blocos não seja afetado pelo estilo inline */
+.code-block code {
+    background-color: transparent;
+    border-radius: 0;
+    font-size: 14px;
+}
+
+/* Ajuste para o botão de copiar em blocos de código menores */
+.code-block.small-block code {
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
+
+/* Estilos para endpoints */
+.endpoint {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    background-color: var(--code-bg);
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: none;
+}
+
+.dark-theme .endpoint {
+    background-color: var(--code-bg);
+}
+
+.endpoint:hover {
+    border-color: var(--border-color);
+}
+
+.method {
+    padding: 8px 12px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    min-width: 80px;
+    text-align: center;
+}
+
+.method.get {
+    background-color: var(--method-get);
+}
+
+.method.post {
+    background-color: var(--method-post);
+}
+
+.method.put {
+    background-color: var(--method-put);
+}
+
+.method.delete {
+    background-color: var(--method-delete);
+}
+
+.path {
+    padding: 8px 15px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--sidebar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Scrollbar personalizada para tema escuro */
+.dark-theme::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.dark-theme::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+}
+
+.dark-theme::-webkit-scrollbar-thumb:hover {
+    background: #8cd2a7; /* Verde pastel */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .content {
+        margin-left: 0;
+    }
+    
+    .mobile-toggle {
+        display: block;
+    }
+    
+    .sidebar.active + .content {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+    
+    .container {
+        position: relative;
+    }
+}
+
+/* Ajustes adicionais para o tema escuro */
+.dark-theme .sidebar-header {
+    border-bottom-color: #3a3a3a;
+}
+
+.dark-theme .content-section {
+    border-color: var(--border-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .content-section h1 {
+    color: #8cd2a7; /* Verde pastel */
+    border-bottom-color: var(--border-color);
+}
+
+.dark-theme .content-section h3 {
+    color: #e0e0e0;
+}
+
+.dark-theme .code-block {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .method {
+    box-shadow: none;
+}
+
+/* Melhorar contraste dos botões no tema escuro */
+.dark-theme .theme-toggle, 
+.dark-theme .mobile-toggle {
+    color: #8cd2a7; /* Verde pastel */
+    background-color: transparent;
+}
+
+.dark-theme .theme-toggle:hover, 
+.dark-theme .mobile-toggle:hover {
+    background-color: transparent;
+}
+
+/* Estilos para o sistema de expansão de respostas */
+.response-section {
+    margin-top: 15px;
+}
+
+.response-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    user-select: none;
+}
+
+.response-header h3 {
+    margin: 0;
+    flex-grow: 1;
+}
+
+.response-toggle {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    transition: none;
+}
+
+.response-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: none;
+}
+
+.response-section.active .response-toggle {
+    transform: rotate(180deg);
+}
+
+.response-section.active .response-content {
+    max-height: none;
+}
+
+/* Ajuste para o espaçamento dentro do conteúdo de resposta */
+.response-content p {
+    margin-top: 15px;
+}
+
+.response-content .code-block:first-of-type {
+    margin-top: 15px;
+}
+
+/* Remover efeitos de hover */
+*:hover {
+    transition: none !important;
+}
+
+/* Ajustes para links no tema escuro */
+.dark-theme .subsection li a.active {
+    color: #8cd2a7; /* Verde pastel */
+}
+
+.dark-theme .subsection li a:hover {
+    color: #a0d6b9; /* Verde pastel claro */
+}
+
+/* Ajustes para a resposta toggle no tema escuro */
+.dark-theme .response-toggle {
+    color: #8cd2a7; /* Verde pastel */
+}
+
+/* Ajustes para código inline no tema escuro */
+.dark-theme code {
+    background-color: #2a2a2a;
+    color: #8cd2a7; /* Verde pastel */
+}
+
+/* Estilos para o seletor de idioma */
+.language-selector {
+    position: relative;
+    margin-right: 10px;
+}
+
+.language-selector select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 5px 25px 5px 10px;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    outline: none;
+}
+
+.language-selector::after {
+    content: '\f0d7';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+    pointer-events: none;
+}
+
+.language-selector select:focus {
+    border-color: var(--primary-color);
+}
+
+.dark-theme .language-selector select {
+    background-color: #2a2a2a;
+    color: #8cd2a7;
+    border-color: #3a3a3a;
+}
+
+.dark-theme .language-selector::after {
+    color: #8cd2a7;
+}
+
+/* Ajustes para seções específicas */
+#what-is-this:before, #base-url:before {
+    background-color: #8cd2a7; /* Verde para seções de introdução */
+}
+
+[id^="auth-"]:before {
+    background-color: #a0c2d6; /* Azul para seções de autenticação */
+}
+
+[id^="user-"]:before {
+    background-color: #d6a0c2; /* Rosa para seções de usuários */
+}
+
+[id^="called-"]:before {
+    background-color: #c2a0d6; /* Roxo para seções de chamados */
+}
+
+/* Melhorar a aparência dos endpoints */
+.endpoint {
+    margin: 25px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.dark-theme .endpoint {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Melhorar a aparência dos blocos de código */
+.code-block {
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.dark-theme .code-block {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Adicionar um indicador visual para os parâmetros */
+.content-section ul li code:first-of-type {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Melhorar a aparência das respostas */
+.response-header {
+    padding: 12px 15px;
+    background-color: var(--section-bg);
+    border-radius: 5px;
+    margin-top: 25px;
+}
+
+.response-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.dark-theme .response-header {
+    background-color: var(--code-bg);
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .content-section {
+        padding: 20px 15px;
+        margin-bottom: 40px;
+    }
+    
+    .content-section h1 {
+        font-size: 1.8rem;
+    }
+    
+    .content-section h3 {
+        font-size: 1.2rem;
+    }
+}
