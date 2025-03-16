@@ -12,6 +12,8 @@ domain/api
 ### Login
 **Endpoint:** `POST /auth/enter`
 
+**Descrição:** Autentica um usuário no sistema, verificando suas credenciais e permitindo acesso às funcionalidades protegidas da API.
+
 **Request Body:**
 ```json
 {
@@ -47,6 +49,8 @@ domain/api
 ### Registro
 **Endpoint:** `POST /auth/register`
 
+**Descrição:** Registra um novo usuário no sistema, permitindo que ele crie uma conta para acessar a plataforma.
+
 **Request Body:**
 ```json
 {
@@ -79,15 +83,127 @@ domain/api
 }
 ```
 
+## Usuários
+
+### Obter Informações do Usuário
+**Endpoint:** `GET /user/fetch`
+
+**Descrição:** Recupera informações detalhadas de um usuário específico, incluindo nome, email, senha (mascarada) e data de criação da conta.
+
+**Query Parameters:**
+- `email`: Email do usuário (exemplo: `email=johndoe@example.com`)
+
+**Respostas:**
+- Sucesso (200):
+```json
+{
+    "username": "John Doe",
+    "email": "johndoe@example.com",
+    "password": "********",
+    "created_at": "2023-07-15T14:30:45Z",
+    "status": true
+}
+```
+- Usuário não encontrado (404):
+```json
+{
+    "message": "User not found",
+    "status": false
+}
+```
+
+### Listar Todos os Usuários
+**Endpoint:** `GET /user/fetchall`
+
+**Descrição:** Recupera uma lista de todos os usuários cadastrados no sistema, mostrando apenas informações básicas (nome e email) de cada um.
+
+**Respostas:**
+- Sucesso (200):
+```json
+{
+    "users": [
+        {
+            "username": "John Doe",
+            "email": "johndoe@example.com"
+        },
+        {
+            "username": "Jane Smith",
+            "email": "janesmith@example.com"
+        }
+    ],
+    "status": true
+}
+```
+
+### Deletar Usuário
+**Endpoint:** `POST /user/delete`
+
+**Descrição:** Remove um usuário do sistema com base no seu email, excluindo permanentemente sua conta e dados associados.
+
+**Request Body:**
+```json
+{
+    "email": "johndoe@example.com"
+}
+```
+
+**Respostas:**
+- Sucesso (200):
+```json
+{
+    "message": "User has been deleted",
+    "status": true
+}
+```
+- Usuário não encontrado (404):
+```json
+{
+    "message": "User not found",
+    "status": false
+}
+```
+
+### Criar Usuário
+**Endpoint:** `POST /user/create`
+
+**Descrição:** Cria um novo usuário no sistema (funciona de forma similar ao endpoint `/auth/register`), mas é destinado para uso administrativo.
+
+**Request Body:**
+```json
+{
+    "username": "John Doe",
+    "email": "johndoe@example.com",
+    "password": "Password123"
+}
+```
+
+**Respostas:**
+- Sucesso (200):
+```json
+{
+    "message": "User has been created",
+    "status": true
+}
+```
+- Email já existe (400):
+```json
+{
+    "message": "Email already exists",
+    "status": false
+}
+```
+
 ## Chamados
 
 ### Criar Chamado
 **Endpoint:** `POST /called/create`
 
+**Descrição:** Cria um novo chamado de suporte técnico no sistema, registrando informações como autor, nome, localização, equipamento e descrição do problema.
+
 **Request Body:**
 ```json
 {
-    "author_id": "usr_123456789",
+    "author_email": "johndoe@example.com",
     "call_name": "Broken computer",
     "callL_label": "Room 19",
     "call_equipment": "Computer 97",
@@ -106,6 +222,8 @@ domain/api
 
 ### Editar Chamado
 **Endpoint:** `POST /called/edit`
+
+**Descrição:** Atualiza informações de um chamado existente, permitindo principalmente a alteração do status do chamado (pendente, em andamento, concluído).
 
 **Request Body:**
 ```json
@@ -134,8 +252,15 @@ domain/api
 ### Listar Chamados
 **Endpoint:** `GET /called/fetch`
 
+**Descrição:** Recupera uma lista de chamados associados a um autor específico, com opção de filtrar por status (todos, pendentes, em andamento, concluídos).
+
 **Query Parameters:**
-- `author`: ID do autor dos chamados (exemplo: `author=usr_123456789`)
+- `author`: Email do autor dos chamados (exemplo: `author=johndoe@example.com`)
+- `status`: Filtro por status (valores possíveis: `all`, `pending`, `doing`, `conclued`)
+
+**Exemplos:**
+- Listar todos os chamados: `/called/fetch?author=johndoe@example.com&status=all`
+- Listar chamados pendentes: `/called/fetch?author=johndoe@example.com&status=pending`
 
 **Respostas:**
 - Sucesso (200):
@@ -167,6 +292,8 @@ domain/api
 ### Detalhes do Chamado
 **Endpoint:** `GET /called/info`
 
+**Descrição:** Recupera informações detalhadas de um chamado específico, incluindo seu histórico completo de atualizações e status atual.
+
 **Query Parameters:**
 - `call_id`: ID do chamado (exemplo: `call_id=call_987654321`)
 
@@ -174,8 +301,24 @@ domain/api
 - Sucesso (200):
 ```json
 {
-    "call_response": "Technician scheduled for tomorrow morning",
+    "call_id": "call_987654321",
+    "call_name": "Broken computer",
+    "call_status": "doing",
     "call_explain": "Computer fell from the desk, screen is cracked and won't turn on",
+    "history": [
+        {
+            "call_return": "Purchasing routers",
+            "call_date": "2023-07-15T14:30:45Z"
+        },
+        {
+            "call_return": "Configuring notebook",
+            "call_date": "2023-07-16T09:15:22Z"
+        },
+        {
+            "call_return": "Clean screen",
+            "call_date": "2023-07-17T11:45:30Z"
+        }
+    ],
     "status": true
 }
 ```
@@ -190,10 +333,12 @@ domain/api
 ### Remover Chamado
 **Endpoint:** `POST /called/remove`
 
+**Descrição:** Remove permanentemente um chamado do sistema, verificando se o autor que solicita a remoção é o mesmo que criou o chamado.
+
 **Request Body:**
 ```json
 {
-    "author_id": "usr_123456789",
+    "author_email": "johndoe@example.com",
     "call_id": "call_987654321"
 }
 ```
