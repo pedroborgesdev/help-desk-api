@@ -17,12 +17,83 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Funcionalidade do botão de menu mobile
     const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileToggleFixed = document.getElementById('mobile-toggle-fixed');
+    const mobileClose = document.getElementById('mobile-close');
+    const mobileCloseFixed = document.getElementById('mobile-close-fixed');
     const sidebar = document.querySelector('.sidebar');
     const content = document.querySelector('.content');
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+    const mobileMenuFixed = document.querySelector('.mobile-menu-fixed');
     
+    // Função para abrir o menu
+    function openMobileMenu() {
+        console.log('Opening mobile menu');
+        sidebar.classList.add('active');
+        if (mobileMenuFixed) {
+            mobileMenuFixed.classList.add('active');
+        }
+        if (sidebarOverlay) {
+            sidebarOverlay.style.display = 'block';
+        }
+        
+        // Salvar a posição de rolagem atual
+        const scrollY = window.scrollY;
+        document.body.style.top = `-${scrollY}px`;
+        document.body.classList.add('menu-open');
+    }
+    
+    // Função para fechar o menu
+    function closeMobileMenu() {
+        console.log('Closing mobile menu');
+        sidebar.classList.remove('active');
+        if (mobileMenuFixed) {
+            mobileMenuFixed.classList.remove('active');
+        }
+        if (sidebarOverlay) {
+            sidebarOverlay.style.display = 'none';
+        }
+        
+        // Restaurar a posição de rolagem
+        const scrollY = document.body.style.top;
+        document.body.classList.remove('menu-open');
+        document.body.style.top = '';
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+    
+    // Adicionar eventos aos botões de menu
     if (mobileToggle) {
-        mobileToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
+        console.log('Mobile toggle button found');
+        mobileToggle.addEventListener('click', function(e) {
+            console.log('Mobile toggle clicked');
+            openMobileMenu();
+            e.stopPropagation(); // Impedir propagação do evento
+        });
+    }
+    
+    if (mobileToggleFixed) {
+        console.log('Fixed mobile toggle button found');
+        mobileToggleFixed.addEventListener('click', function(e) {
+            console.log('Fixed mobile toggle clicked');
+            openMobileMenu();
+            e.stopPropagation(); // Impedir propagação do evento
+        });
+    }
+    
+    if (mobileClose) {
+        console.log('Close button found');
+        mobileClose.addEventListener('click', function(e) {
+            console.log('Close button clicked');
+            closeMobileMenu();
+            e.stopPropagation(); // Impedir propagação do evento
+        });
+    }
+    
+    if (mobileCloseFixed) {
+        console.log('Fixed close button found');
+        mobileCloseFixed.addEventListener('click', function(e) {
+            console.log('Fixed close button clicked');
+            closeMobileMenu();
+            e.stopPropagation(); // Impedir propagação do evento
         });
     }
     
@@ -30,51 +101,39 @@ document.addEventListener('DOMContentLoaded', function() {
     if (content) {
         content.addEventListener('click', function() {
             if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
+                closeMobileMenu();
             }
         });
     }
     
-    // Funcionalidade de alternância de tema
-    const themeToggle = document.getElementById('theme-toggle');
-    const htmlElement = document.documentElement;
-    const themeIcon = themeToggle.querySelector('i');
-    
-    // Verificar se há uma preferência de tema salva
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        if (savedTheme === 'light') {
-            htmlElement.classList.remove('dark-theme');
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
-        } else {
-            htmlElement.classList.add('dark-theme');
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-        }
-    }
-    
-    // Alternar entre temas claro e escuro
-    themeToggle.addEventListener('click', function() {
-        if (htmlElement.classList.contains('dark-theme')) {
-            // Mudar para tema claro
-            htmlElement.classList.remove('dark-theme');
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
-            localStorage.setItem('theme', 'light');
-        } else {
-            // Mudar para tema escuro
-            htmlElement.classList.add('dark-theme');
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-            localStorage.setItem('theme', 'dark');
-        }
-        
-        // Recarregar o Prism.js para atualizar a coloração de sintaxe
-        if (typeof Prism !== 'undefined') {
-            Prism.highlightAll();
+    // Fechar o menu ao pressionar a tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+            closeMobileMenu();
         }
     });
+    
+    // Fechar o menu ao clicar em links da navegação em dispositivos móveis
+    const mobileNavLinks = document.querySelectorAll('.nav-menu a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+    });
+    
+    // Fechar o menu ao clicar no overlay
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function() {
+            console.log('Overlay clicked');
+            closeMobileMenu();
+        });
+    }
+    
+    // Garantir que o tema escuro esteja sempre ativo
+    const htmlElement = document.documentElement;
+    htmlElement.classList.add('dark-theme');
     
     // Funcionalidade de troca de idioma
     const languageSelect = document.getElementById('language-select');
@@ -119,11 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Atualizar os tooltips
-        const themeButton = document.getElementById('theme-toggle');
-        if (themeButton) {
-            themeButton.title = language === 'en-us' ? 'Toggle theme' : 'Alternar tema';
-        }
-        
         const languageSelector = document.getElementById('language-select');
         if (languageSelector) {
             languageSelector.title = language === 'en-us' ? 'Select language' : 'Selecionar idioma';
@@ -183,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Fechar o menu em dispositivos móveis após clicar
                 if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
-                    sidebar.classList.remove('active');
+                    closeMobileMenu();
                 }
                 
                 // Atualizar a URL com o hash

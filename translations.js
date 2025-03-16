@@ -46,10 +46,17 @@ const translations = {
         'examples': 'Examples:',
         
         // Descriptions
-        'user-fetch-desc': 'Fetches information about a specific user.',
-        'user-fetchall-desc': 'Fetches all users from the system.',
-        'user-delete-desc': 'Deletes a user based on their email.',
-        'user-create-desc': 'Creates a user (works similarly to the /auth/register endpoint).',
+        'login-desc': 'Authenticates a user in the system, verifying their credentials and allowing access to protected API functionalities.',
+        'register-desc': 'Registers a new user in the system, allowing them to create an account to access the platform.',
+        'user-fetch-desc': 'Retrieves detailed information about a specific user, including name, email, password (masked) and account creation date.',
+        'user-fetchall-desc': 'Retrieves a list of all users registered in the system, showing only basic information (name and email) for each one.',
+        'user-delete-desc': 'Removes a user from the system based on their email, permanently deleting their account and associated data.',
+        'user-create-desc': 'Creates a new user in the system (works similarly to the /auth/register endpoint), but is intended for administrative use.',
+        'ticket-create-desc': 'Creates a new technical support ticket in the system, recording information such as author, name, location, equipment, and problem description.',
+        'ticket-update-desc': 'Updates information for an existing ticket, primarily allowing changes to the ticket status (pending, in progress, completed).',
+        'ticket-fetch-desc': 'Retrieves a list of tickets based on specified filters, allowing users to view tickets by author and status.',
+        'ticket-info-desc': 'Retrieves detailed information about a specific ticket, including its status, description, and history of updates.',
+        'ticket-delete-desc': 'Removes a ticket from the system based on its ID and the author\'s email, permanently deleting the ticket and its history.',
         
         // Parameter descriptions
         'email-param-desc': 'User email (example: <code>email=johndoe@example.com</code>)',
@@ -118,10 +125,17 @@ const translations = {
         'examples': 'Exemplos:',
         
         // Descrições
-        'user-fetch-desc': 'Puxa informações de um usuário específico.',
-        'user-fetchall-desc': 'Puxa todos os usuários do sistema.',
-        'user-delete-desc': 'Deleta um usuário com base no email.',
-        'user-create-desc': 'Cria um usuário (funciona de forma similar ao endpoint <code>/auth/register</code>).',
+        'login-desc': 'Autentica um usuário no sistema, verificando suas credenciais e permitindo acesso às funcionalidades protegidas da API.',
+        'register-desc': 'Registra um novo usuário no sistema, permitindo que ele crie uma conta para acessar a plataforma.',
+        'user-fetch-desc': 'Recupera informações detalhadas de um usuário específico, incluindo nome, email, senha (mascarada) e data de criação da conta.',
+        'user-fetchall-desc': 'Recupera uma lista de todos os usuários cadastrados no sistema, mostrando apenas informações básicas (nome e email) de cada um.',
+        'user-delete-desc': 'Remove um usuário do sistema com base no seu email, excluindo permanentemente sua conta e dados associados.',
+        'user-create-desc': 'Cria um novo usuário no sistema (funciona de forma similar ao endpoint <code>/auth/register</code>), mas é destinado para uso administrativo.',
+        'ticket-create-desc': 'Cria um novo chamado de suporte técnico no sistema, registrando informações como autor, nome, localização, equipamento e descrição do problema.',
+        'ticket-update-desc': 'Atualiza informações de um chamado existente, permitindo principalmente a alteração do status do chamado (pendente, em andamento, concluído).',
+        'ticket-fetch-desc': 'Recupera uma lista de chamados com base em filtros especificados, permitindo aos usuários visualizar chamados por autor e status.',
+        'ticket-info-desc': 'Recupera informações detalhadas sobre um chamado específico, incluindo seu status, descrição e histórico de atualizações.',
+        'ticket-delete-desc': 'Remove um chamado do sistema com base no seu ID e no email do autor, excluindo permanentemente o chamado e seu histórico.',
         
         // Descrições de parâmetros
         'email-param-desc': 'Email do usuário (exemplo: <code>email=johndoe@example.com</code>)',
